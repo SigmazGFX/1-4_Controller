@@ -72,8 +72,6 @@ void setup()                    // run once, when the sketch starts
   Serial.println("-------------");
   Serial.println("");
   Serial.println("Pausing 3 Seconds for recovery");
-  Serial.println("");
-  
   delay(3000); // 3 second delay for recovery
   Serial.println("game started");
   //Button setup
