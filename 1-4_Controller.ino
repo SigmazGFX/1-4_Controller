@@ -75,6 +75,7 @@ void setup()                    // run once, when the sketch starts
   Serial.println("");
   
   delay(3000); // 3 second delay for recovery
+  Serial.println("game started");
   //Button setup
   pinMode(LOCK_PINL, OUTPUT);      // sets the digital pin as normally low output (LOCK_PINx states invert on correct PW)
   pinMode(LOCK_PINH, OUTPUT);      // sets the digital pin as normally high output
