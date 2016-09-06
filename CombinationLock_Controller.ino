@@ -14,7 +14,7 @@ const unsigned char sample[] PROGMEM = {
 };
 
 //---EEPROM TEST----
-char* secretCode = "                    "; // Mask for serial monitor password display
+char* secretCode = "123456789123456789123456789"; // Mask for serial monitor password display
 int codeLength = 0; //obtained from EEPROM.read(1024), Defines length of password
 //------------------
 
@@ -290,7 +290,7 @@ void loadCode()
     Serial.print("codeLength "); Serial.println(codeLength);
 
     //read data in address locations up to codeLength
-    for (int i = 1; i < codeLength; i++ )
+    for (int i = 0; i < codeLength; i++ )
     {
       secretCode[i] = EEPROM.read(i);
     }
@@ -302,7 +302,7 @@ void loadCode()
 void saveCode()
 {
 
-  for (int i = 1; i < codeLength; i++ )
+  for (int i = 0; i < codeLength; i++ )
     EEPROM.write(i, secretCode[i]);
   EEPROM.write(1024, codeLength);
 }
