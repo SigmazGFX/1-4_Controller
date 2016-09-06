@@ -14,24 +14,17 @@ const unsigned char sample[] PROGMEM = {
 };
 
 //---EEPROM TEST----
-char* secretCode = "                    ";
-int codeLength = 0; //obtained from EEPROM, Defines length of password
+char* secretCode = "                    "; // Mask for serial monitor password display
+int codeLength = 0; //obtained from EEPROM.read(1024), Defines length of password
+//------------------
 
+//---Used with saveCode() in setup() to manually force write of sample EEPROM Data--
 //char* secretCode = "01234567890";
 //int codeLength = 11; //defines length of password
-//int getCode = 0;
-//--------------------
+//----------------------------------------------------------------------------------
 
-//--Setup Password stuff-------------
 #include <Password.h>
-int password_length = 12; // define the legnth of the password
 Password password = Password(secretCode);
-//Password password = Password("113424342124");
-//--------------------------------------------
-
-
-
-
 #define PW_PIN0   2
 #define PW_PIN1   3
 #define PW_PIN2   4
@@ -48,11 +41,8 @@ int buttonState2 = 0;         // current state of the 2button
 int lastButtonState2 = 0;     // previous state of the 2button
 int buttonState3 = 0;         // current state of the 3button
 int lastButtonState3 = 0;     // previous state of the 3button
-
 int pwtry = 0;
-
-
-//---End PW stuff--------------
+int programMode = 0;
 
 //Pin debouncer setup----------
 Debounce PW0 = Debounce( 20 , PW_PIN0 );
@@ -61,7 +51,7 @@ Debounce PW2 = Debounce( 20 , PW_PIN2 );
 Debounce PW3 = Debounce( 20 , PW_PIN3 );
 //-----------------------------
 
-int programMode = 0;
+
 
 
 
