@@ -14,7 +14,7 @@ const unsigned char sample[] PROGMEM = {
 };
 
 //---EEPROM TEST----
-char* secretCode = "123456789123456789123456789"; // Mask for serial monitor password display
+char* secretCode = "                    "; // Mask for serial monitor password display
 int codeLength = 0; //obtained from EEPROM.read(1024), Defines length of password
 //------------------
 
@@ -85,7 +85,7 @@ void setup()                    // run once, when the sketch starts
   pinMode(PW_PIN3, INPUT_PULLUP);
   LockIt();
   loadCode(); // Load password secretCode from EEPROM
- // saveCode();
+//  saveCode();
   //Serial.println(EEPROM.read(0));
 
 
@@ -292,7 +292,7 @@ void loadCode()
     //read data in address locations up to codeLength
     for (int i = 0; i < codeLength; i++ )
     {
-      secretCode[i] = EEPROM.read(i);
+      secretCode[i] = EEPROM.read(i+1);
     }
     Serial.print("Current Passcode: "); Serial.println(secretCode);
   }
@@ -303,7 +303,7 @@ void saveCode()
 {
 
   for (int i = 0; i < codeLength; i++ )
-    EEPROM.write(i, secretCode[i]);
+    EEPROM.write(i+1, secretCode[i]);
   EEPROM.write(1024, codeLength);
 }
 
