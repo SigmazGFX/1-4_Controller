@@ -14,9 +14,9 @@ const unsigned char sample[] PROGMEM = {
 };
 
 //---EEPROM TEST----
-char* numofzeros = "0000000000";
 
-char* secretCode = (numofzeros); // Mask for serial monitor password display
+
+char* secretCode = "0000"; // Mask for serial monitor password display
 
 int codeLength = 0; //obtained from EEPROM.read(1024), Defines length of password
 int progMode = 0;  //Switch from runmode to programming mode
@@ -70,7 +70,6 @@ void setup()                    // run once, when the sketch starts
 {
   Serial.begin(9600);
   Serial.println("Multi-Button Combo Lock 2016 -Sigmaz@gmail.com(Jon Bruno)");
-  Serial.print("Press 1, 2, and 4 to enter programming mode. Current code> ");
   Serial.println("");
   Serial.println("---PINOUTS--- ");
   Serial.println("PW_PIN0 - Pin 2");
@@ -82,9 +81,10 @@ void setup()                    // run once, when the sketch starts
   Serial.println("Lock_Pin1 (high when locked) - Pin 13");
   Serial.println("-------------");
   Serial.println("");
+  Serial.println("Press and hold Pins 2, 3 and 5 low to enter programming mode.");
   Serial.println("Pausing 3 Seconds for recovery");
   delay(3000); // 3 second delay for recovery
-  Serial.println("game started");
+  Serial.println("Initialized");
   pinMode(LOCK_PINL, OUTPUT);      // sets the digital pin as normally low output (LOCK_PINx states invert on correct PW)
   pinMode(LOCK_PINH, OUTPUT);      // sets the digital pin as normally high output
   pinMode(PW_PIN0, INPUT_PULLUP);
@@ -95,35 +95,23 @@ void setup()                    // run once, when the sketch starts
 
   switchMode(); //detect config mode button press and pop into programming mode.
 
-  if (progMode == 1) {
-  } else {
+  if (progMode == 1)
+  { } else {
     loadCode(); // Load password secretCode from EEPROM
   }
 
-   // saveCode(); //Used to force hardcoded update
-
-
-
+  // saveCode(); //Used to force hardcoded update
 }
 
 
 void loop()                     // run over and over again
 {
-
-
   CheckTimeout();
-
-  if (progMode == 1)
-  {
-    newPwCollect();
-  } else {
-    PwCollect();
-  }
+  PwCollect();
 }
 
 void switchMode()
 {
-
   if (digitalRead(2) == (LOW) && digitalRead(3) == (LOW) && digitalRead(5) == (LOW))
   {
     progMode = 1;
@@ -132,6 +120,7 @@ void switchMode()
     digitalWrite(13, LOW);
     delay (2000);
     blinkProg();
+    Serial.println("Enter new sequence. 5sec. button timeout resets to normal mode.");
     timeElapsed = 0;
   }
 
@@ -143,15 +132,15 @@ void CheckTimeout()
   {
     if (progMode == 1) {
       progMode = 0;
-      loadCode();
+      Serial.println("");
       Serial.println("Leaving programming mode");
-      Serial.print("New Passcode: ");
-      Serial.println(secretCode);
+      loadCode();
       blinkProg();
     } else {
       pwtry = 0; //Reset all the registers and try again...
       password.reset();
       timeElapsed = 0;
+      Serial.print(".");
     }
   }
 }
@@ -169,37 +158,32 @@ void Unlock()
   LockIt();
 }
 
-
 void correctPW()
-
 {
   Unlock();
 }
-void incorrectPW()
 
+void incorrectPW()
 {
   LockIt();
-  //  startPlayback(sample, sizeof(sample));
+  startPlayback(sample, sizeof(sample));
 }
 
-
-
-
-
 void PwCollect()  {
+  if (progMode == 1)
+  {} else {
+    if (pwtry == codeLength)
+    {
+      checkPassword();
+    }
+  }
 
-  // if (progMode == 0) {
-  if (pwtry == codeLength) {
-    checkPassword();
-    //  }
+  PW0.update();
+  PW1.update();
+  PW2.update();
+  PW3.update();
 
-  } else {
-
-    PW0.update();
-    PW1.update();
-    PW2.update();
-    PW3.update();
-
+  if (progMode == 0) {
     buttonState0 = PW0.read();
     if (PW0.read() == LOW) {
       if (buttonState0 != lastButtonState0) {
@@ -207,7 +191,6 @@ void PwCollect()  {
         pwtry++;
         timeElapsed = 0; //reset code entry timeout.
         Serial.print("1");
-
       }
     }
     lastButtonState0 = buttonState0;
@@ -244,37 +227,89 @@ void PwCollect()  {
       }
     }
     lastButtonState3 = buttonState3;
-  }
+  } else {
+    buttonState0 = PW0.read();
+    if (PW0.read() == LOW) {
+      if (buttonState0 != lastButtonState0) {
+        if (progMode == 1) {
+          codeLength++;
+          EEPROM.write(codeLength, PWOcode[0]);
+          EEPROM.write(1024, codeLength);
+        }
 
+        timeElapsed = 0; //reset code entry timeout.
+        Serial.print("1");
+      }
+    }
+    lastButtonState0 = buttonState0;
+
+    buttonState1 = PW1.read();
+    if (PW1.read() == LOW) {
+      if (buttonState1 != lastButtonState1) {
+        if (progMode == 1) {
+          codeLength++;
+          EEPROM.write(codeLength, PW1code[0]);
+          EEPROM.write(1024, codeLength);
+        }
+        timeElapsed = 0; //reset code entry timeout.
+        Serial.print("2");
+      }
+    }
+
+    lastButtonState1 = buttonState1;
+
+    buttonState2 = PW2.read();
+    if (PW2.read() == LOW) {
+      if (buttonState2 != lastButtonState2) {
+        if (progMode == 1) {
+          codeLength++;
+          EEPROM.write(codeLength, PW2code[0]);
+          EEPROM.write(1024, codeLength);
+        }
+        timeElapsed = 0; //reset code entry timeout.
+        Serial.print("3");
+      }
+    }
+    lastButtonState2 = buttonState2;
+
+    buttonState3 = PW3.read();
+    if (PW3.read() == LOW) {
+      if (buttonState3 != lastButtonState3) {
+        if (progMode == 1) {
+          codeLength++;
+          EEPROM.write(codeLength, PW3code[0]);
+          EEPROM.write(1024, codeLength);
+        }
+        timeElapsed = 0; //reset code entry timeout.
+        Serial.print("4");
+      }
+    }
+    lastButtonState3 = buttonState3;
+  }
 }
 
 void checkPassword() {
 
   if (password.evaluate()) {
     Serial.println("Success");
-    //Add code to run if it works
     correctPW();
-    pwtry = 0; //Reset all the registers for next use.
+    pwtry = 0;
     password.reset();
   } else {
     Serial.println("Wrong");
     incorrectPW();
-    pwtry = 0; //Reset all the registers and try again...
+    pwtry = 0;
     password.reset();
-
   }
 }
 //----- EEPROM TESTING Section----
-
 
 void loadCode()
 {
   if (EEPROM.read(1024) > 0)
   {
-
     codeLength = EEPROM.read(1024);
     Serial.print("codeLength "); Serial.println(codeLength);
-
     //read data in address locations up to codeLength
     for (int i = 0; i < codeLength; i++ )
     {
@@ -285,92 +320,21 @@ void loadCode()
 
 }
 
-void saveCode()//used to manuallt force eeprom data. defined from top of file
+void saveCode()//used to manually force save eeprom data. defined from top of file
 {
-
   for (int i = 0; i < codeLength; i++ )
     EEPROM.write(i + 1, secretCode[i]);
   EEPROM.write(1024, codeLength);
 }
 
-
-void newPwCollect()
-{
-
-  PW0.update();
-  PW1.update();
-  PW2.update();
-  PW3.update();
-
-  buttonState0 = PW0.read();
-  if (PW0.read() == LOW) {
-    if (buttonState0 != lastButtonState0) {
-      if (progMode == 1) {
-        codeLength++;
-        EEPROM.write(codeLength, PWOcode[0]);
-        EEPROM.write(1024, codeLength);
-      }
-
-      timeElapsed = 0; //reset code entry timeout.
-      Serial.print("1");
-    }
-  }
-  lastButtonState0 = buttonState0;
-
-  buttonState1 = PW1.read();
-  if (PW1.read() == LOW) {
-    if (buttonState1 != lastButtonState1) {
-      if (progMode == 1) {
-        codeLength++;
-        EEPROM.write(codeLength, PW1code[0]);
-        EEPROM.write(1024, codeLength);
-      }
-      timeElapsed = 0; //reset code entry timeout.
-      Serial.print("2");
-    }
-  }
-
-  lastButtonState1 = buttonState1;
-
-  buttonState2 = PW2.read();
-  if (PW2.read() == LOW) {
-    if (buttonState2 != lastButtonState2) {
-      if (progMode == 1) {
-        codeLength++;
-        EEPROM.write(codeLength, PW2code[0]);
-        EEPROM.write(1024, codeLength);
-      }
-      timeElapsed = 0; //reset code entry timeout.
-      Serial.print("3");
-    }
-  }
-  lastButtonState2 = buttonState2;
-
-  buttonState3 = PW3.read();
-  if (PW3.read() == LOW) {
-    if (buttonState3 != lastButtonState3) {
-      if (progMode == 1) {
-        codeLength++;
-        EEPROM.write(codeLength, PW3code[0]);
-        EEPROM.write(1024, codeLength);
-      }
-      timeElapsed = 0; //reset code entry timeout.
-      Serial.print("4");
-    }
-  }
-  lastButtonState3 = buttonState3;
-}
-
-
-
-void blinkProg()
+void blinkProg() //Strobe D12&D13 when entering and leaving programming mode
 {
   for (int i = 0; i < 20; i++ )
   {
     digitalWrite(LOCK_PINL, HIGH);  // sets the LOCK_PINL high
     digitalWrite(LOCK_PINH, LOW);  // sets the LOCK_PINH low
     delay(100);
-    LockIt();
+    LockIt();  // sets the LOCK_PINL LOW and LOCK_PINH HIGH
     delay(100);
   }
 }
