@@ -16,6 +16,12 @@ const unsigned char sample[] PROGMEM = {
 //---EEPROM TEST----
 char* secretCode = "                    "; // Mask for serial monitor password display
 int codeLength = 0; //obtained from EEPROM.read(1024), Defines length of password
+int progMode = 0;  //Switch from runmode to programming mode
+char* PWOcode = "1"; // used to program passcode numbers into eeprom during progMode1
+char* PW1code = "2";
+char* PW2code = "3";
+char* PW3code = "4";
+//...
 //------------------
 
 //---Used with saveCode() in setup() to manually force write of sample EEPROM Data--
@@ -42,7 +48,7 @@ int lastButtonState2 = 0;     // previous state of the 2button
 int buttonState3 = 0;         // current state of the 3button
 int lastButtonState3 = 0;     // previous state of the 3button
 int pwtry = 0;
-int programMode = 0;
+
 
 //Pin debouncer setup----------
 Debounce PW0 = Debounce( 20 , PW_PIN0 );
@@ -84,9 +90,16 @@ void setup()                    // run once, when the sketch starts
   pinMode(PW_PIN2, INPUT_PULLUP);
   pinMode(PW_PIN3, INPUT_PULLUP);
   LockIt();
-  loadCode(); // Load password secretCode from EEPROM
-//  saveCode();
-  //Serial.println(EEPROM.read(0));
+
+  switchMode(); //detect config mode button press and pop into programming mode.
+
+  if (progMode == 1) {
+  } else {
+    loadCode(); // Load password secretCode from EEPROM
+  }
+
+  //  saveCode();
+
 
 
 }
@@ -96,27 +109,49 @@ void loop()                     // run over and over again
 {
 
 
-  //for (int i = 0; i < codeLength; i++ ){
-  //Serial.print("i");Serial.print(i);Serial.print(" ");Serial.println(EEPROM.read(i));
-  //}
-
-
-  delay(1000);
   CheckTimeout();
-  PwCollect();
 
+  if (progMode == 1)
+  {
+    newPwCollect();
+  } else {
+    PwCollect();
+  }
 }
 
+void switchMode()
+{
+
+  if (digitalRead(2) == (LOW) && digitalRead(3) == (LOW) && digitalRead(5) == (LOW))
+  {
+    progMode = 1;
+    codeLength = 0;
+    Serial.println("Entering programming mode, release buttons");
+    digitalWrite(13, LOW);
+    delay (2000);
+    blinkProg();
+    timeElapsed = 0;
+  }
+
+}
 
 void CheckTimeout()
 {
   if (timeElapsed > interval)
   {
-    pwtry = 0; //Reset all the registers and try again...
-    password.reset();
-    timeElapsed = 0;
+    if (progMode == 1) {
+      progMode = 0;
+      loadCode();
+      Serial.println("Leaving programming mode");
+      Serial.print("New Passcode: ");
+      Serial.println(secretCode);
+      blinkProg();
+    } else {
+      pwtry = 0; //Reset all the registers and try again...
+      password.reset();
+      timeElapsed = 0;
+    }
   }
-
 }
 
 void LockIt()
@@ -151,10 +186,10 @@ void incorrectPW()
 
 void PwCollect()  {
 
-  //if (pwtry == password_length) {
+  // if (progMode == 0) {
   if (pwtry == codeLength) {
     checkPassword();
-
+    //  }
 
   } else {
 
@@ -219,8 +254,6 @@ void checkPassword() {
     correctPW();
     pwtry = 0; //Reset all the registers for next use.
     password.reset();
-
-
   } else {
     Serial.println("Wrong");
     incorrectPW();
@@ -229,56 +262,7 @@ void checkPassword() {
 
   }
 }
-
 //----- EEPROM TESTING Section----
-void programModeDetect()
-{
-
-}
-
-void getNewCode()
-{
-  for (int i = 0; i < 4; i++ )
-  {
-    char key;
-    //key = keypad.getKey();
-    while (key == 0)
-    {
-      //key = keypad.getKey();
-    }
-    secretCode[i] = key;
-  }
-  saveCode();
-}
-
-void collectNewCode()
-{
-//PW0.update();
-// for (int i = 0; i < 254; i++ )
-// 
-//    buttonState0 = PW0.read();
-//    if (PW0.read() == LOW) {
-//      if (buttonState0 != lastButtonState0) {
-//        password.append('1');
-//        pwtry++;
-//        timeElapsed = 0; //reset code entry timeout.
-//        Serial.print("1");
-//
-//      }
-//    }
-//
-//
-// 
-
-
-
-    codeLength++;
-
-
-//  secretCode[i] = key;
-
-
-}
 
 
 void loadCode()
@@ -292,18 +276,99 @@ void loadCode()
     //read data in address locations up to codeLength
     for (int i = 0; i < codeLength; i++ )
     {
-      secretCode[i] = EEPROM.read(i+1);
+      secretCode[i] = EEPROM.read(i + 1);
     }
     Serial.print("Current Passcode: "); Serial.println(secretCode);
   }
 
 }
 
-void saveCode()
+void saveCode()//used to manuallt force eeprom data. defined from top of file
 {
 
   for (int i = 0; i < codeLength; i++ )
-    EEPROM.write(i+1, secretCode[i]);
+    EEPROM.write(i + 1, secretCode[i]);
   EEPROM.write(1024, codeLength);
 }
 
+
+void newPwCollect()
+{
+
+  PW0.update();
+  PW1.update();
+  PW2.update();
+  PW3.update();
+
+  buttonState0 = PW0.read();
+  if (PW0.read() == LOW) {
+    if (buttonState0 != lastButtonState0) {
+      if (progMode == 1) {
+        codeLength++;
+        EEPROM.write(codeLength, PWOcode[0]);
+        EEPROM.write(1024, codeLength);
+      }
+
+      timeElapsed = 0; //reset code entry timeout.
+      Serial.print("1");
+    }
+  }
+  lastButtonState0 = buttonState0;
+
+  buttonState1 = PW1.read();
+  if (PW1.read() == LOW) {
+    if (buttonState1 != lastButtonState1) {
+      if (progMode == 1) {
+        codeLength++;
+        EEPROM.write(codeLength, PW1code[0]);
+        EEPROM.write(1024, codeLength);
+      }
+      timeElapsed = 0; //reset code entry timeout.
+      Serial.print("2");
+    }
+  }
+
+  lastButtonState1 = buttonState1;
+
+  buttonState2 = PW2.read();
+  if (PW2.read() == LOW) {
+    if (buttonState2 != lastButtonState2) {
+      if (progMode == 1) {
+        codeLength++;
+        EEPROM.write(codeLength, PW2code[0]);
+        EEPROM.write(1024, codeLength);
+      }
+      timeElapsed = 0; //reset code entry timeout.
+      Serial.print("3");
+    }
+  }
+  lastButtonState2 = buttonState2;
+
+  buttonState3 = PW3.read();
+  if (PW3.read() == LOW) {
+    if (buttonState3 != lastButtonState3) {
+      if (progMode == 1) {
+        codeLength++;
+        EEPROM.write(codeLength, PW3code[0]);
+        EEPROM.write(1024, codeLength);
+      }
+      timeElapsed = 0; //reset code entry timeout.
+      Serial.print("4");
+    }
+  }
+  lastButtonState3 = buttonState3;
+}
+
+
+
+void blinkProg()
+{
+  for (int i = 0; i < 20; i++ )
+  {
+    digitalWrite(LOCK_PINL, HIGH);  // sets the LOCK_PINL high
+    digitalWrite(LOCK_PINH, LOW);  // sets the LOCK_PINH low
+    delay(100);
+    LockIt();
+    delay(100);
+  }
+}
