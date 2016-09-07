@@ -1,7 +1,4 @@
-# 1-4_Controller
-1-4 input password module
 
-1-4 controller
 5sec state change on LOCKL and LOCKH when correct sequence is input.
 Requires the following libraries:
 PCM.h
