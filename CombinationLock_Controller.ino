@@ -17,6 +17,7 @@ const unsigned char sample[] PROGMEM = {
 char secretCode[20]; // Max sequence is 18 button presses.
 int codeLength = 0; //obtained from EEPROM.read(1024), Defines length of password
 int progMode = 0;  //Switch from runmode to programming mode
+char* defaultCode = "1234";
 //------------------
 
 //---Used with saveCode() to manually force write of sample EEPROM Data--
@@ -102,7 +103,7 @@ void setup()                    // run once, when the sketch starts
   pinMode(PW_PIN6, INPUT_PULLUP);
   pinMode(PW_PIN7, INPUT_PULLUP);
   LockIt();
-
+  firstRun();
   switchMode(); //detect config mode button press and pop into programming mode.
 
   if (progMode == 1)
@@ -112,6 +113,20 @@ void setup()                    // run once, when the sketch starts
 
   // saveCode(); //Used to force hardcoded update
 }
+
+void firstRun()
+{
+ if (EEPROM.read(1023) != 123);
+   {
+  for (int i = 0; i < 4; i++ )
+  EEPROM.write(i + 1, defaultCode[i]);
+  EEPROM.write(1024, 4);
+  EEPROM.write(1023, 123);
+  }
+  Serial.println("default password set: 1234");
+  Serial.println(EEPROM.read(1023));
+}
+
 
 
 void loop()                     // run over and over again
