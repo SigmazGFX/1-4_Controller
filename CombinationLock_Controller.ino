@@ -100,7 +100,7 @@ void setup()                    // run once, when the sketch starts
     loadCode(); // Load password secretCode from EEPROM
   }
 
-   // saveCode();
+   // saveCode(); //Used to force hardcoded update
 
 
 
