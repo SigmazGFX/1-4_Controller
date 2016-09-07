@@ -14,7 +14,7 @@ const unsigned char sample[] PROGMEM = {
 };
 
 //------------------
-char* secretCode = "0000"; // Mask for serial monitor password display
+char secretCode[20]; // Max sequence is 18 button presses.
 int codeLength = 0; //obtained from EEPROM.read(1024), Defines length of password
 int progMode = 0;  //Switch from runmode to programming mode
 //------------------
@@ -30,6 +30,10 @@ Password password = Password(secretCode);
 #define PW_PIN1   3
 #define PW_PIN2   4
 #define PW_PIN3   5
+#define PW_PIN4   6
+#define PW_PIN5   7
+#define PW_PIN6   8
+#define PW_PIN7   9
 #define LOCK_PINL 12
 #define LOCK_PINH 13
 //ERROR sound speaker pin 11
@@ -42,6 +46,14 @@ int buttonState2 = 0;         // current state of the 2button
 int lastButtonState2 = 0;     // previous state of the 2button
 int buttonState3 = 0;         // current state of the 3button
 int lastButtonState3 = 0;     // previous state of the 3button
+int buttonState4 = 0;         // current state of the 4button
+int lastButtonState4 = 0;     // previous state of the 4button
+int buttonState5 = 0;         // current state of the 5button
+int lastButtonState5 = 0;     // previous state of the 5button
+int buttonState6 = 0;         // current state of the 6button
+int lastButtonState6 = 0;     // previous state of the 6button
+int buttonState7 = 0;         // current state of the 7button
+int lastButtonState7 = 0;     // previous state of the 7button
 int pwtry = 0;
 
 
@@ -50,6 +62,11 @@ Debounce PW0 = Debounce( 20 , PW_PIN0 );
 Debounce PW1 = Debounce( 20 , PW_PIN1 );
 Debounce PW2 = Debounce( 20 , PW_PIN2 );
 Debounce PW3 = Debounce( 20 , PW_PIN3 );
+Debounce PW4 = Debounce( 20 , PW_PIN4 );
+Debounce PW5 = Debounce( 20 , PW_PIN5 );
+Debounce PW6 = Debounce( 20 , PW_PIN6 );
+Debounce PW7 = Debounce( 20 , PW_PIN7 );
+
 //-----------------------------
 
 
@@ -58,13 +75,13 @@ void setup()                    // run once, when the sketch starts
 //start LED setup----------------------------
 {
   Serial.begin(9600);
-  Serial.println("Multi-Button Combo Lock 2016 -Sigmaz@gmail.com(Jon Bruno)");
+  Serial.println("Programmable Multi-Button Combo Lock 2016 -Sigmaz@gmail.com(Jon Bruno)");
   Serial.println("");
   Serial.println("---PINOUTS--- ");
-  Serial.println("PW_PIN0 - Pin 2");
-  Serial.println("PW_PIN1 - Pin 3");
-  Serial.println("PW_PIN2 - Pin 4");
-  Serial.println("PW_PIN3 - Pin 5");
+  Serial.println("PW_PIN0(1) - Pin 2        PW_PIN4(5) - Pin 6");
+  Serial.println("PW_PIN1(2) - Pin 3        PW_PIN5(6) - Pin 7");
+  Serial.println("PW_PIN2(3) - Pin 4        PW_PIN6(7) - Pin 8"); 
+  Serial.println("PW_PIN3(4) - Pin 5        PW_PIN7(8) - Pin 9");
   Serial.println("Buzzer_pin - Pin 11");
   Serial.println("Lock_Pin0 (low when locked) - Pin 12");
   Serial.println("Lock_Pin1 (high when locked) - Pin 13");
@@ -80,6 +97,10 @@ void setup()                    // run once, when the sketch starts
   pinMode(PW_PIN1, INPUT_PULLUP);
   pinMode(PW_PIN2, INPUT_PULLUP);
   pinMode(PW_PIN3, INPUT_PULLUP);
+  pinMode(PW_PIN4, INPUT_PULLUP);
+  pinMode(PW_PIN5, INPUT_PULLUP);
+  pinMode(PW_PIN6, INPUT_PULLUP);
+  pinMode(PW_PIN7, INPUT_PULLUP);
   LockIt();
 
   switchMode(); //detect config mode button press and pop into programming mode.
@@ -171,6 +192,10 @@ void PwCollect()  {
   PW1.update();
   PW2.update();
   PW3.update();
+  PW4.update();
+  PW5.update();
+  PW6.update();
+  PW7.update();
 
   if (progMode == 0) {
     buttonState0 = PW0.read();
@@ -216,6 +241,54 @@ void PwCollect()  {
       }
     }
     lastButtonState3 = buttonState3;
+
+    buttonState4 = PW4.read();
+    if (PW4.read() == LOW) {
+      if (buttonState4 != lastButtonState4) {
+        password.append('5');
+        pwtry++;
+        timeElapsed = 0; //reset code entry timeout.
+        Serial.print("5");
+      }
+    }
+    lastButtonState4 = buttonState4;
+
+
+    buttonState5 = PW5.read();
+    if (PW5.read() == LOW) {
+      if (buttonState5 != lastButtonState5) {
+        password.append('6');
+        pwtry++;
+        timeElapsed = 0; //reset code entry timeout.
+        Serial.print("6");
+      }
+    }
+    lastButtonState5 = buttonState5;
+
+    buttonState6 = PW6.read();
+    if (PW6.read() == LOW) {
+      if (buttonState6 != lastButtonState6) {
+        password.append('7');
+        pwtry++;
+        timeElapsed = 0; //reset code entry timeout.
+        Serial.print("7");
+      }
+    }
+    lastButtonState6 = buttonState6;
+
+    buttonState7 = PW7.read();
+    if (PW7.read() == LOW) {
+      if (buttonState7 != lastButtonState7) {
+        password.append('8');
+        pwtry++;
+        timeElapsed = 0; //reset code entry timeout.
+        Serial.print("8");
+      }
+    }
+    lastButtonState7 = buttonState7;
+
+    //-----------
+
   } else {
     buttonState0 = PW0.read();
     if (PW0.read() == LOW) {
@@ -274,8 +347,68 @@ void PwCollect()  {
       }
     }
     lastButtonState3 = buttonState3;
+
+    buttonState4 = PW4.read();
+    if (PW4.read() == LOW) {
+      if (buttonState4 != lastButtonState4) {
+        if (progMode == 1) {
+          codeLength++;
+          EEPROM.write(codeLength, '5');
+          EEPROM.write(1024, codeLength);
+        }
+        timeElapsed = 0; //reset code entry timeout.
+        Serial.print("5");
+      }
+    }
+    lastButtonState4 = buttonState4;
+
+    buttonState5 = PW5.read();
+    if (PW5.read() == LOW) {
+      if (buttonState5 != lastButtonState5) {
+        if (progMode == 1) {
+          codeLength++;
+          EEPROM.write(codeLength, '6');
+          EEPROM.write(1024, codeLength);
+        }
+        timeElapsed = 0; //reset code entry timeout.
+        Serial.print("6");
+      }
+    }
+    lastButtonState5 = buttonState5;
+
+    buttonState6 = PW6.read();
+    if (PW6.read() == LOW) {
+      if (buttonState6 != lastButtonState6) {
+        if (progMode == 1) {
+          codeLength++;
+          EEPROM.write(codeLength, '7');
+          EEPROM.write(1024, codeLength);
+        }
+        timeElapsed = 0; //reset code entry timeout.
+        Serial.print("7");
+      }
+    }
+    lastButtonState6 = buttonState6;
+
+    buttonState7 = PW7.read();
+    if (PW7.read() == LOW) {
+      if (buttonState7 != lastButtonState7) {
+        if (progMode == 1) {
+          codeLength++;
+          EEPROM.write(codeLength, '8');
+          EEPROM.write(1024, codeLength);
+        }
+        timeElapsed = 0; //reset code entry timeout.
+        Serial.print("8");
+      }
+    }
+    lastButtonState7 = buttonState7;
+
   }
 }
+
+
+
 
 void checkPassword() {
 
