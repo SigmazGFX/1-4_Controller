@@ -218,7 +218,7 @@ void PwCollect()  {
 
   if (progMode == 0) {
     buttonState0 = PW0.read();
-    if (PW0.read() == LOW) {
+    if (buttonState0 == LOW) {
       if (buttonState0 != lastButtonState0) {
         password.append('1');
         pwtry++;
@@ -229,7 +229,7 @@ void PwCollect()  {
     lastButtonState0 = buttonState0;
 
     buttonState1 = PW1.read();
-    if (PW1.read() == LOW) {
+    if (buttonState1 == LOW) {
       if (buttonState1 != lastButtonState1) {
         password.append('2');
         pwtry++;
@@ -240,7 +240,7 @@ void PwCollect()  {
     lastButtonState1 = buttonState1;
 
     buttonState2 = PW2.read();
-    if (PW2.read() == LOW) {
+    if (buttonState2 == LOW) {
       if (buttonState2 != lastButtonState2) {
         password.append('3');
         pwtry++;
@@ -251,7 +251,7 @@ void PwCollect()  {
     lastButtonState2 = buttonState2;
 
     buttonState3 = PW3.read();
-    if (PW3.read() == LOW) {
+    if (buttonState3 == LOW) {
       if (buttonState3 != lastButtonState3) {
         password.append('4');
         pwtry++;
@@ -262,7 +262,7 @@ void PwCollect()  {
     lastButtonState3 = buttonState3;
 
     buttonState4 = PW4.read();
-    if (PW4.read() == LOW) {
+    if (buttonState4 == LOW) {
       if (buttonState4 != lastButtonState4) {
         password.append('5');
         pwtry++;
@@ -274,7 +274,7 @@ void PwCollect()  {
 
 
     buttonState5 = PW5.read();
-    if (PW5.read() == LOW) {
+    if (buttonState5 == LOW) {
       if (buttonState5 != lastButtonState5) {
         password.append('6');
         pwtry++;
@@ -285,7 +285,7 @@ void PwCollect()  {
     lastButtonState5 = buttonState5;
 
     buttonState6 = PW6.read();
-    if (PW6.read() == LOW) {
+    if (buttonState6 == LOW) {
       if (buttonState6 != lastButtonState6) {
         password.append('7');
         pwtry++;
@@ -296,7 +296,7 @@ void PwCollect()  {
     lastButtonState6 = buttonState6;
 
     buttonState7 = PW7.read();
-    if (PW7.read() == LOW) {
+    if (buttonState7 == LOW) {
       if (buttonState7 != lastButtonState7) {
         password.append('8');
         pwtry++;
@@ -310,7 +310,7 @@ void PwCollect()  {
 
   } else {
     buttonState0 = PW0.read();
-    if (PW0.read() == LOW) {
+    if (buttonState0 == LOW) {
       if (buttonState0 != lastButtonState0) {
         if (progMode == 1) {
           codeLength++;
@@ -325,7 +325,7 @@ void PwCollect()  {
     lastButtonState0 = buttonState0;
 
     buttonState1 = PW1.read();
-    if (PW1.read() == LOW) {
+    if (buttonState1 == LOW) {
       if (buttonState1 != lastButtonState1) {
         if (progMode == 1) {
           codeLength++;
@@ -340,7 +340,7 @@ void PwCollect()  {
     lastButtonState1 = buttonState1;
 
     buttonState2 = PW2.read();
-    if (PW2.read() == LOW) {
+    if (buttonState2 == LOW) {
       if (buttonState2 != lastButtonState2) {
         if (progMode == 1) {
           codeLength++;
@@ -354,7 +354,7 @@ void PwCollect()  {
     lastButtonState2 = buttonState2;
 
     buttonState3 = PW3.read();
-    if (PW3.read() == LOW) {
+    if (buttonState3 == LOW) {
       if (buttonState3 != lastButtonState3) {
         if (progMode == 1) {
           codeLength++;
@@ -368,7 +368,7 @@ void PwCollect()  {
     lastButtonState3 = buttonState3;
 
     buttonState4 = PW4.read();
-    if (PW4.read() == LOW) {
+    if (buttonState4 == LOW) {
       if (buttonState4 != lastButtonState4) {
         if (progMode == 1) {
           codeLength++;
@@ -382,7 +382,7 @@ void PwCollect()  {
     lastButtonState4 = buttonState4;
 
     buttonState5 = PW5.read();
-    if (PW5.read() == LOW) {
+    if (buttonState5 == LOW) {
       if (buttonState5 != lastButtonState5) {
         if (progMode == 1) {
           codeLength++;
@@ -396,7 +396,7 @@ void PwCollect()  {
     lastButtonState5 = buttonState5;
 
     buttonState6 = PW6.read();
-    if (PW6.read() == LOW) {
+    if (buttonState6 == LOW) {
       if (buttonState6 != lastButtonState6) {
         if (progMode == 1) {
           codeLength++;
@@ -410,7 +410,7 @@ void PwCollect()  {
     lastButtonState6 = buttonState6;
 
     buttonState7 = PW7.read();
-    if (PW7.read() == LOW) {
+    if (buttonState7 == LOW) {
       if (buttonState7 != lastButtonState7) {
         if (progMode == 1) {
           codeLength++;
