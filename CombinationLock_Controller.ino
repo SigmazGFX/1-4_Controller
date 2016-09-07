@@ -20,11 +20,6 @@ char* secretCode = "0000"; // Mask for serial monitor password display
 
 int codeLength = 0; //obtained from EEPROM.read(1024), Defines length of password
 int progMode = 0;  //Switch from runmode to programming mode
-char* PWOcode = "1"; // used to program passcode numbers into eeprom during progMode1
-char* PW1code = "2";
-char* PW2code = "3";
-char* PW3code = "4";
-//...
 //------------------
 
 //---Used with saveCode() in setup() to manually force write of sample EEPROM Data--
@@ -233,7 +228,7 @@ void PwCollect()  {
       if (buttonState0 != lastButtonState0) {
         if (progMode == 1) {
           codeLength++;
-          EEPROM.write(codeLength, PWOcode[0]);
+          EEPROM.write(codeLength, '1');
           EEPROM.write(1024, codeLength);
         }
 
@@ -248,7 +243,7 @@ void PwCollect()  {
       if (buttonState1 != lastButtonState1) {
         if (progMode == 1) {
           codeLength++;
-          EEPROM.write(codeLength, PW1code[0]);
+          EEPROM.write(codeLength, '2');
           EEPROM.write(1024, codeLength);
         }
         timeElapsed = 0; //reset code entry timeout.
@@ -263,7 +258,7 @@ void PwCollect()  {
       if (buttonState2 != lastButtonState2) {
         if (progMode == 1) {
           codeLength++;
-          EEPROM.write(codeLength, PW2code[0]);
+          EEPROM.write(codeLength, '3');
           EEPROM.write(1024, codeLength);
         }
         timeElapsed = 0; //reset code entry timeout.
@@ -277,7 +272,7 @@ void PwCollect()  {
       if (buttonState3 != lastButtonState3) {
         if (progMode == 1) {
           codeLength++;
-          EEPROM.write(codeLength, PW3code[0]);
+          EEPROM.write(codeLength, '4');
           EEPROM.write(1024, codeLength);
         }
         timeElapsed = 0; //reset code entry timeout.
