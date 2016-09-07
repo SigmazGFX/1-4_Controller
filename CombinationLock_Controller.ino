@@ -81,7 +81,7 @@ void setup()                    // run once, when the sketch starts
   Serial.println("---PINOUTS--- ");
   Serial.println("PW_PIN0(1) - Pin 2        PW_PIN4(5) - Pin 6");
   Serial.println("PW_PIN1(2) - Pin 3        PW_PIN5(6) - Pin 7");
-  Serial.println("PW_PIN2(3) - Pin 4        PW_PIN6(7) - Pin 8"); 
+  Serial.println("PW_PIN2(3) - Pin 4        PW_PIN6(7) - Pin 8");
   Serial.println("PW_PIN3(4) - Pin 5        PW_PIN7(8) - Pin 9");
   Serial.println("Buzzer_pin - Pin 11");
   Serial.println("Lock_Pin0 (low when locked) - Pin 12");
@@ -103,7 +103,10 @@ void setup()                    // run once, when the sketch starts
   pinMode(PW_PIN6, INPUT_PULLUP);
   pinMode(PW_PIN7, INPUT_PULLUP);
   LockIt();
+
+
   firstRun();
+
   switchMode(); //detect config mode button press and pop into programming mode.
 
   if (progMode == 1)
@@ -111,22 +114,23 @@ void setup()                    // run once, when the sketch starts
     loadCode(); // Load password secretCode from EEPROM
   }
 
-  // saveCode(); //Used to force hardcoded update
 }
 
 void firstRun()
 {
- if (EEPROM.read(1023) != 123);
-   {
-  for (int i = 0; i < 4; i++ )
-  EEPROM.write(i + 1, defaultCode[i]);
-  EEPROM.write(1024, 4);
-  EEPROM.write(1023, 123);
-  }
-  Serial.println("default password set: 1234");
-  Serial.println(EEPROM.read(1023));
-}
+  int a = (EEPROM.read(1023));
+  int b = 123;
+  if (a != b)
+  {
+    for (int i = 0; i < 4; i++ )
+      EEPROM.write(i + 1, defaultCode[i]);
+    EEPROM.write(1024, 4);
+    EEPROM.write(1023, 123);
 
+    Serial.println("default password set: 1234");
+    Serial.println(EEPROM.read(1023));
+  }
+}
 
 
 void loop()                     // run over and over again
