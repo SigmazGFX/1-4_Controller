@@ -1,4 +1,4 @@
-//Stroudsburg PA KLUES Escape Room Combination controller
+//Combination controller
 //
 //------------------------------------2016 Sigmaz
 
