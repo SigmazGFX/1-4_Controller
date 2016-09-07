@@ -14,7 +14,10 @@ const unsigned char sample[] PROGMEM = {
 };
 
 //---EEPROM TEST----
-char* secretCode = "                    "; // Mask for serial monitor password display
+char* numofzeros = "0000000000";
+
+char* secretCode = (numofzeros); // Mask for serial monitor password display
+
 int codeLength = 0; //obtained from EEPROM.read(1024), Defines length of password
 int progMode = 0;  //Switch from runmode to programming mode
 char* PWOcode = "1"; // used to program passcode numbers into eeprom during progMode1
@@ -25,8 +28,8 @@ char* PW3code = "4";
 //------------------
 
 //---Used with saveCode() in setup() to manually force write of sample EEPROM Data--
-//char* secretCode = "01234567890";
-//int codeLength = 11; //defines length of password
+//char* secretCode = "1111";
+//int codeLength = 4; //defines length of password
 //----------------------------------------------------------------------------------
 
 #include <Password.h>
@@ -82,7 +85,6 @@ void setup()                    // run once, when the sketch starts
   Serial.println("Pausing 3 Seconds for recovery");
   delay(3000); // 3 second delay for recovery
   Serial.println("game started");
-  //Button setup
   pinMode(LOCK_PINL, OUTPUT);      // sets the digital pin as normally low output (LOCK_PINx states invert on correct PW)
   pinMode(LOCK_PINH, OUTPUT);      // sets the digital pin as normally high output
   pinMode(PW_PIN0, INPUT_PULLUP);
@@ -98,7 +100,7 @@ void setup()                    // run once, when the sketch starts
     loadCode(); // Load password secretCode from EEPROM
   }
 
-  //  saveCode();
+   // saveCode();
 
 
 
