@@ -41,8 +41,10 @@ Setting a Passcode:
 Some people may wish to change the passcode to something else, or utilize more than 4 buttons.
 You may enter up to 18 total button presses from any of the 8 buttons. (i.e. 162853644212531687)
 
-To do this press and hold buttons 1,2,& 4 at power up. 
-The LED at D13 will turn off and then in 3 seconds it will flash rapidly(20x) indicating that the controller is switching into programming mode.
+To do this press and hold buttons/switches 1,2,& 4 at power up. 
+The LED at D13 will turn off.
+Release the buttons/switches. 
+In 3 seconds the LED at D13 will flash rapidly(20x) indicating that the controller is switching into programming mode.
 Once the LED stays solid you can now begin to enter the sequence of button presses you desire.
 When you have finished entering your sequence simply leave the unit alone for 5 seconds. 
 The LED at D13 will flash rapidly(20x) to indicate that the controller is leaving programmiong mode and returning to normal operation mode.
@@ -59,3 +61,8 @@ To reset the module Pull pins 2,3, 4, & 5 to ground while powering up.
 The LED at D13 will flash rapidly on and off (20x) once the default passcode has been set.
 At this time remove the pins from ground
 After the LED stops flashing there is a 3 second delay before the unit resumes normal operation.
+
+
+Additional note: During programming you may notice that your lock or latch device will click on and off with the corrosponding flashes of the LED on D13.
+This is normal as they share the output of the pin. 
+If this behaviour is not acceptible I recommend you disconnect your lock or latch device prior to programming.
