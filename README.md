@@ -27,3 +27,4 @@ Lock_Pin1 (high when locked) - Pin 13
 -------------
 Hold Pins 2, 3 and 5 low to enter programming mode.
 Hold Pins 2, 3, 4 and 5 low to reset to factory default password
+ 
