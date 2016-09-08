@@ -1,5 +1,7 @@
-//Combination controller
-//
+//Programmable combination controller
+//1-8 inputs
+//up to 18 steps in combination
+//1x normally high and 1x normally low pins
 //------------------------------------2016 Sigmaz
 
 #include <EEPROM.h>
@@ -20,10 +22,6 @@ int progMode = 0;  //Switch from runmode to programming mode
 char* defaultCode = "1234";
 //------------------
 
-//---Used with saveCode() to manually force write of sample EEPROM Data--
-//char* secretCode = "1111";
-//int codeLength = 4; //defines length of password
-//----------------------------------------------------------------------------------
 
 #include <Password.h>
 Password password = Password(secretCode);
@@ -39,6 +37,7 @@ Password password = Password(secretCode);
 #define LOCK_PINH 13
 //ERROR sound speaker pin 11
 
+int maxButton = 8;
 int buttonState0 = 0;         // current state of the 0button
 int lastButtonState0 = 0;     // previous state of the 0button
 int buttonState1 = 0;         // current state of the 1button
@@ -126,6 +125,8 @@ void firstRun() // Set the default password on new device
 
     Serial.println("default password set: 1234");
     Serial.println(EEPROM.read(1023));
+    blinkProg();
+    delay(3000);
   }
 }
 
@@ -138,6 +139,12 @@ void loop()                     // run over and over again
 
 void switchMode()
 {
+  if (digitalRead(2) == (LOW) && digitalRead(3) == (LOW) && digitalRead(4) == (LOW) && digitalRead(5) == (LOW))
+  {
+    Serial.println("Resetting to default password");
+    EEPROM.write(1023, 0);
+    firstRun();
+  }
   if (digitalRead(2) == (LOW) && digitalRead(3) == (LOW) && digitalRead(5) == (LOW))
   {
     progMode = 1;
@@ -149,14 +156,6 @@ void switchMode()
     Serial.println("Enter new sequence. 5sec. button timeout resets to normal mode.");
     timeElapsed = 0;
   }
-
-  if (digitalRead(2) == (LOW) && digitalRead(3) == (LOW) && digitalRead(4) == (LOW) && digitalRead(5) == (LOW))
-  {
-    Serial.println("Resetting to default password");
-    EEPROM.write(1023, 0);
-    firstRun();
-  }
-
 }
 
 void CheckTimeout()
@@ -477,9 +476,3 @@ void blinkProg() //Strobe D12&D13 when entering and leaving programming mode
   }
 }
 
-//void saveCode()//used to manually force save eeprom data. defined from top of file
-//{
-//  for (int i = 0; i < codeLength; i++ )
-//    EEPROM.write(i + 1, secretCode[i]);
-//  EEPROM.write(1024, codeLength);
-//}
