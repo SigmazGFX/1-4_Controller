@@ -8,7 +8,7 @@ Connect the other side of the buttons/switches to the following pins.
 1,D2  	2,D3
 3,D4  	4,D5
 5,D6  	6,D7
-7,D8    9,D9
+7,D8    8,D9
 
 This controller can drive an SSR (solid state relay) to control a range of devices such as solenoids, mag switches, or linear actuators.
 NOTE: pins are limited to 20mA and typically cannot sink or source enough current to directly power these devices.
