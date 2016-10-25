@@ -41,7 +41,7 @@ Setting a Passcode:
 Some people may wish to change the passcode to something else, or utilize more than 4 buttons.
 You may enter up to 18 total button presses from any of the 8 buttons in any order. (i.e. 162853644212531687)
 
-To program a custom passcode press and hold buttons/switches 1,2,& 4 and then power up the controller.
+To program a custom passcode press and hold buttons connected to D2, D3, & D5 and then power up the controller.
 The LED at D13 will start out illuminated and then will turn off.
 At this time you will release the buttons/switches. 
 In 3 seconds the LED at D13 will flash rapidly(20x) indicating that the controller is switching into programming mode.
@@ -56,7 +56,7 @@ TIP: If you accidently enter programming mode and do not wish to enter a new pas
 Resetting to default:
 
 This controller module does have the ability to be reset back to the default passcode ( 1-2-3-4 )
-To reset the controller to the default passcode, press and hold buttons/switches 2,3,4,and 5 and then power up the controller.
+To reset the controller to the default passcode, press and hold buttons connected to D2, D3, D4, and D5 and then power up the controller.
 The LED at D13 will flash rapidly on and off (20x) to indicate that the default passcode has been reset.
 At this time release all buttons/switches.
 The LED will stop flashing and then the controller will have a 3 second delay before it resumes normal operation.
