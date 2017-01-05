@@ -468,7 +468,8 @@ void blinkProg() //Strobe D12&D13 when entering and leaving programming mode
 {
   for (int i = 0; i < 20; i++ )
   {
-    Unlock(); // sets the LOCK_PINL HIGH and LOCK_PINH LOW
+    digitalWrite(LOCK_PINL, HIGH);  // sets the LOCK_PINL high
+    digitalWrite(LOCK_PINH, LOW);  // sets the LOCK_PINH low
     delay(100);
     LockIt();  // sets the LOCK_PINL LOW and LOCK_PINH HIGH
     delay(100);
