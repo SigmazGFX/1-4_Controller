@@ -72,7 +72,6 @@ Debounce PW7 = Debounce( 20 , PW_PIN7 );
 
 void setup()                    // run once, when the sketch starts
 
-//start LED setup----------------------------
 {
   Serial.begin(9600);
   Serial.println("Programmable Multi-Button Combo Lock 2016 -Sigmaz@gmail.com(Jon Bruno)");
