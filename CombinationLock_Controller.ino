@@ -77,10 +77,10 @@ void setup()                    // run once, when the sketch starts
   Serial.println("Programmable Multi-Button Combo Lock 2016 -Sigmaz@gmail.com(Jon Bruno)");
   Serial.println("");
   Serial.println("---PINOUTS--- ");
-  Serial.println("PW_PIN0(1) - Pin 2        PW_PIN4(5) - Pin 6");
-  Serial.println("PW_PIN1(2) - Pin 3        PW_PIN5(6) - Pin 7");
-  Serial.println("PW_PIN2(3) - Pin 4        PW_PIN6(7) - Pin 8");
-  Serial.println("PW_PIN3(4) - Pin 5        PW_PIN7(8) - Pin 9");
+  Serial.println("PW_PIN0(A) - Pin D2        PW_PIN4(E) - Pin D6");
+  Serial.println("PW_PIN1(B) - Pin D3        PW_PIN5(F) - Pin D7");
+  Serial.println("PW_PIN2(C) - Pin D4        PW_PIN6(G) - Pin D8");
+  Serial.println("PW_PIN3(D) - Pin D5        PW_PIN7(H) - Pin D9");
   Serial.println("Buzzer_pin - Pin 11");
   Serial.println("Lock_Pin0 (low when locked) - Pin 12");
   Serial.println("Lock_Pin1 (high when locked) - Pin 13");
