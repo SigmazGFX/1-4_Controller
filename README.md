@@ -5,10 +5,10 @@ All buttons/switches use a common ground,
 Connect the other side of the buttons/switches to the following pins.
 
 [Button, Digital Pin]
-A,D2  	B,D3
-C,D4  	D,D5
-E,D6  	F,D7
-G,D8    H,D9
+A = D2  	B = D3
+C = D4  	D = D5
+E = D6  	F = D7
+G = D8    H = D9
 
 This controller can drive an SSR (solid state relay) to control a range of devices such as solenoids, mag switches, or linear actuators.
 NOTE: pins are limited to 20mA and typically cannot sink or source enough current to directly power these devices.
