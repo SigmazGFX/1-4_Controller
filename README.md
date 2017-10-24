@@ -5,10 +5,10 @@ All buttons/switches use a common ground,
 Connect the other side of the buttons/switches to the following pins.
 
 [Button, Digital Pin]
-1,D2  	2,D3
-3,D4  	4,D5
-5,D6  	6,D7
-7,D8    8,D9
+A,D2  	B,D3
+C,D4  	D,D5
+E,D6  	F,D7
+G,D8    H,D9
 
 This controller can drive an SSR (solid state relay) to control a range of devices such as solenoids, mag switches, or linear actuators.
 NOTE: pins are limited to 20mA and typically cannot sink or source enough current to directly power these devices.
@@ -31,17 +31,17 @@ TIP: I would recommend a small amplifier to increase the volume level of the sou
 First Run:
 
 When the controller is turned on for the first time it will run a quick test to se if it has been programmed with a passcode.
-If no custom passcode has been programmed it will program itself with the default passcode (1-2-3-4).
+If no custom passcode has been programmed it will program itself with the default passcode (A-B-C-D).
 
-You can now use the device as it is. When you press buttons 1-2-3-4 you will see the LED at D13 turn off for 5 seconds and then turn back on.
+You can now use the device as it is. When you press buttons A-B-C-D you will see the LED at D13 turn off for 5 seconds and then turn back on.
 A correct passcode has been entered!
 
 
 Setting a Passcode:
 Some people may wish to change the passcode to something else, or utilize more than 4 buttons.
-You may enter up to 18 total button presses from any of the 8 buttons in any order. (i.e. 162853644212531687)
+You may enter up to 18 total button presses from any of the 8 buttons in any order. 
 
-To program a custom passcode press and hold buttons connected to D2, D3, & D5 and then power up the controller.
+To program a custom passcode press and hold buttons connected to A, B, & D and then power up the controller.
 The LED at D13 will start out illuminated and then will turn off.
 At this time you will release the buttons/switches. 
 In 3 seconds the LED at D13 will flash rapidly(20x) indicating that the controller is switching into programming mode.
@@ -55,8 +55,8 @@ TIP: If you accidently enter programming mode and do not wish to enter a new pas
 
 Resetting to default:
 
-This controller module does have the ability to be reset back to the default passcode ( 1-2-3-4 )
-To reset the controller to the default passcode, press and hold buttons connected to D2, D3, D4, and D5 and then power up the controller.
+This controller module does have the ability to be reset back to the default passcode ( A-B-C-D )
+To reset the controller to the default passcode, press and hold buttons connected to A, B, C, and D and then power up the controller.
 The LED at D13 will flash rapidly on and off (20x) to indicate that the default passcode has been reset.
 At this time release all buttons/switches.
 The LED will stop flashing and then the controller will have a 3 second delay before it resumes normal operation.
