@@ -25,7 +25,7 @@ Pin 11 is the audio output pin and can be connected to a small speaker + side.
 The - side of the speaker would be connected to the common ground of the controller.
 
 TIP: I would recommend a small amplifier to increase the volume level of the sound. 
-(Something like a pair of powered computer speakers would be great.)
+(Something like an inexpencive class D amplifier or pair of powered computer speakers would be great.)
 
 
 First Run:
