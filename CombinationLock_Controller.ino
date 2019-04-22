@@ -86,8 +86,8 @@ void setup()                    // run once, when the sketch starts
   Serial.println("Lock_Pin1 (high when locked) - Pin 13");
   Serial.println("-------------");
   Serial.println("");
-  Serial.println("Press and hold Pins 2, 3 and 5 low to enter programming mode.");
-  Serial.println("Press and hold Pins 2, 3, 4 and 5 low to reset to factory default password");
+  Serial.println("Press and hold Pins 2(C), 3(D) and 5(F) low to enter programming mode.");
+  Serial.println("Press and hold Pins 2(C), 3(D), 4(E) and 5(F) low to reset to factory default password");
   Serial.println("Pausing 3 Seconds for recovery");
   delay(3000); // 3 second delay for recovery
   Serial.println("Initialized");
