@@ -19,7 +19,7 @@ const unsigned char sample[] PROGMEM = {
 char secretCode[20]; // Max sequence is 18 button presses.
 int codeLength = 0; //obtained from EEPROM.read(1024), Defines length of password
 int progMode = 0;  //Switch from runmode to programming mode
-char* defaultCode = "1234";
+char* defaultCode = "1234";//(A,B,C,D)
 //------------------
 
 
